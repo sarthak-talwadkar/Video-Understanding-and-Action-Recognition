@@ -72,15 +72,15 @@ Both models are integrated into a **custom FiftyOne plugin** that provides inter
              └──────┬──────────┬──────────┘
                     │          │
        ┌────────────▼──┐   ┌───▼────────────────┐
-       │    X-CLIP     │   │     VideoMAE        │
-       │  Video+Text   │   │  Spatiotemporal     │
-       │  Encoder      │   │  Masked Autoencoder │
-       │               │   │                     │
-       │ video embed   │   │  video features     │
-       │ text embed    │   │  → classifier head  │
-       │ cosine sim    │   │                     │
-       │ → action label│   │  → action label     │
-       └────────┬──────┘   └──────────┬──────────┘
+       │    X-CLIP     │   │     VideoMAE       │
+       │  Video+Text   │   │  Spatiotemporal    │
+       │  Encoder      │   │  Masked Autoencoder│
+       │               │   │                    │
+       │ video embed   │   │  video features    │
+       │ text embed    │   │  → classifier head │
+       │ cosine sim    │   │                    │
+       │ → action label│   │  → action label    │
+       └────────┬──────┘   └──────────┬─────────┘
                 │                     │
                 └──────────┬──────────┘
                            │ Predictions + confidence
@@ -88,7 +88,7 @@ Both models are integrated into a **custom FiftyOne plugin** that provides inter
              ┌─────────────────────────────┐
              │     FiftyOne Plugin         │
              │  Custom operator panel      │
-             │  Prediction visualization  │
+             │  Prediction visualization   │
              │  Model comparison view      │
              │  Agent-driven querying      │
              └─────────────────────────────┘
@@ -111,23 +111,23 @@ Video Input (T frames)
 ┌───────────────────────────────────────────┐
 │  Frame-level Visual Encoder               │
 │  (CLIP ViT-B/16, applied per frame)       │
-│  → T frame embeddings ∈ R^{T×512}        │
+│  → T frame embeddings ∈ R^{T×512}         │
 └───────────────────┬───────────────────────┘
                     │
 ┌───────────────────▼───────────────────────┐
 │  Cross-Frame Attention                    │
 │  Each frame attends to all other frames   │
 │  → temporally aggregated video embedding  │
-│  v ∈ R^512                               │
+│  v ∈ R^512                                │
 └───────────────────┬───────────────────────┘
                     │
                     │        Action label text
                     │              │
                     │    ┌─────────▼──────────┐
-                    │    │  Video-Conditioned  │
-                    │    │  Text Prompting     │
+                    │    │  Video-Conditioned │
+                    │    │  Text Prompting    │
                     │    │  t_i = f(label_i,  │
-                    │    │         v)          │
+                    │    │         v)         │
                     │    │  → t_i ∈ R^512     │
                     │    └─────────┬──────────┘
                     │              │
